@@ -1,19 +1,20 @@
 #### COMPILE FLAGS ####
 CC			 = g++
 CFLAGS	 = -pedantic-errors -Wall -Wextra -Werror
-CENDFLAGS =	-I$(IDIR)
+CENDFLAGS =	$(foreach d, $(IDIR), -I$d)
 
 TARGET = SlopTrough
 
 #### DIRECTORY DEFINITIONS ####
-IDIR	 = ./include
+IDIR 	 = ./include ./include/math
 BDIR	 = ./build
 ODIR	 = $(BDIR)/obj
 APPDIR = $(BDIR)/apps
 
 
 #### SRC and OBJ ####
-SRC = $(wildcard src/*.cpp)
+SRC = $(wildcard src/*.cpp) \
+		$(wildcard src/math/*.cpp)
 OBJ = $(SRC:%.cpp=$(ODIR)/%.o)
 
 #### BUILD OBJECTS ####
