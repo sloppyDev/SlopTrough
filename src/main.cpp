@@ -4,8 +4,6 @@
 
 int main()
 {
-   std::cout << "Hello there!  Enter a value to make a vector out of!" << std::endl;
-
    //
    // TEST VECTOR3
    //
@@ -16,13 +14,13 @@ int main()
 
    // ADD
    a.print();
-   std::cout << "+" << std::endl;
+   std::cout<< "+" << std::endl;
    b.print();
    std::cout << "=" << std::endl;
    c = a + b;
    c.print();
    std::cout << "\n\n" << std::endl;
-   
+
    // SUBTRACT
    a.print();
    std::cout << "-" << std::endl;
@@ -30,7 +28,7 @@ int main()
    std::cout << "=" << std::endl;
    c = a - b;
    c.print();
-   std::cout << "\n\n" << std::endl;   
+   std::cout << "\n\n" << std::endl;
 
    // MULTIPLY
    a.print();
@@ -40,7 +38,7 @@ int main()
    c = a*b;
    c.print();
    std::cout << "\n\n" << std::endl;
-   
+
    // DIVIDE
    a.print();
    std::cout << "/" << std::endl;
@@ -49,22 +47,31 @@ int main()
    c = a/b;
    c.print();
    std::cout << "\n\n" << std::endl;
-   
+
+   // DIVIDE
+   a.print();
+   std::cout << "/" << std::endl;
+   b.print();
+   std::cout << "=" << std::endl;
+   c = a^b;
+   c.print();
+   std::cout << "\n\n" << std::endl;
+
    // DOT
    a.print();
    std::cout << "DOT" << std::endl;
    b.print();
    std::cout << "=" << std::endl;
-   d = a.Dot(a,b);
+   d = Dot(a,b);
    std::cout << d << std::endl;
    std::cout << "\n\n" << std::endl;
-   
+
    // CROSS
    a.print();
    std::cout << "CROSS" << std::endl;
    b.print();
    std::cout << "=" << std::endl;
-   c = a.Cross(a,b);
+   c = Cross(a,b);
    c.print();
    std::cout << "\n\n" << std::endl;
 
@@ -73,9 +80,9 @@ int main()
    std::cout << "PROJ" << std::endl;
    b.print();
    std::cout << "=" << std::endl;
-   c = a.Proj(a,b);
+   c = Proj(a,b);
    c.print();
-   std::cout << "\n\n" << std::endl;   
-   
+   std::cout << "\n\n" << std::endl;
+
    return 0;
 }

@@ -35,46 +35,6 @@ Vector3::Vector3(const Vector3& other)
 
 }
 
-// UTILITY FUNCTIONS
-double Vector3::Mag(Vector3 a)
-{
-   double out = pow(a.x*a.x + a.y*a.y + a.z*a.z,0.5);
-
-   return out;
-}
-
-double Vector3::Dot(Vector3 a, Vector3 b)
-{
-   double out;
-   out = a.x*b.x + a.y*b.y + a.z*b.z;
-
-   return out;
-}
-
-Vector3 Vector3::Cross(Vector3 a, Vector3 b)
-{
-   double x;
-   double y;
-   double z;
-
-   x = a.y*b.z - a.z*b.y;
-   y = a.z*b.x - a.x*b.z;
-   z = a.x*b.y - a.y*b.x;
-
-   Vector3 v(x, y, z);
-   
-   return v;
-}
-
-Vector3 Vector3::Proj(Vector3 a, Vector3 b)
-{
-   double magB  = Mag(b);
-   double aDotB = Dot(a, b);
-   Vector3 v = (b*aDotB)/(magB*magB);   
-   
-   return v;
-}
-
 void Vector3::print()
 {
    std::cout << "[" << x << ", " << y << ", " << z << "]" << std::endl;
@@ -167,5 +127,70 @@ Vector3 Vector3::operator/(double a)
    v.y = this->y/a;
    v.z = this->z/a;
 
+   return v;
+}
+
+Vector3 Vector3::operator^(const Vector3& other)
+{
+   double x;
+   double y;
+   double z;
+
+   x = this->y*other.z - this->z*other.y;
+   y = this->z*other.x - this->x*other.z;
+   z = this->x*other.y - this->y*other.x;
+
+   Vector3 v(x, y, z);
+   
+   return v;
+}
+
+// UTILITY FUNCTIONS
+double Mag(Vector3 a)
+{
+   double out = pow(a.x*a.x + a.y*a.y + a.z*a.z,0.5);
+
+   return out;
+}
+
+double Dot(Vector3 a, Vector3 b)
+{
+   double out;
+   out = a.x*b.x + a.y*b.y + a.z*b.z;
+
+   return out;
+}
+
+Vector3 ElementMult(Vector3 a, Vector3 b)
+{
+   Vector3 v;
+   v.x = a.x*b.x;
+   v.y = a.y*b.y;
+   v.z = a.z*b.z;
+
+   return v;
+}
+
+Vector3 Cross(Vector3 a, Vector3 b)
+{
+   double x;
+   double y;
+   double z;
+
+   x = a.y*b.z - a.z*b.y;
+   y = a.z*b.x - a.x*b.z;
+   z = a.x*b.y - a.y*b.x;
+
+   Vector3 v(x, y, z);
+   
+   return v;
+}
+
+Vector3 Proj(Vector3 a, Vector3 b)
+{
+   double magB  = Mag(b);
+   double aDotB = Dot(a, b);
+   Vector3 v = (b*aDotB)/(magB*magB);   
+   
    return v;
 }

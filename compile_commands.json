@@ -1,0 +1,36 @@
+[
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-pedantic-errors",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-I./include",
+            "-I./include/math",
+            "-o",
+            "build/obj/src/math/Vector3.o",
+            "src/math/Vector3.cpp"
+        ],
+        "directory": "/home/slop/Documents/SlopTrough",
+        "file": "src/math/Vector3.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-pedantic-errors",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-I./include",
+            "-I./include/math",
+            "-o",
+            "build/obj/src/main.o",
+            "src/main.cpp"
+        ],
+        "directory": "/home/slop/Documents/SlopTrough",
+        "file": "src/main.cpp"
+    }
+]
