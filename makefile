@@ -2,11 +2,12 @@
 CC			 = g++
 CFLAGS	 = -pedantic-errors -Wall -Wextra -Werror
 CENDFLAGS =	$(foreach d, $(IDIR), -I$d)
+LIBFLAGS  = -lGL  -lglfw3
 
 TARGET = SlopTrough
 
 #### DIRECTORY DEFINITIONS ####
-IDIR 	 = ./include ./include/tests ./include/math
+IDIR 	 = ./include ./include/tests ./include/math ./include/graphics
 BDIR	 = ./build
 ODIR	 = $(BDIR)/obj
 APPDIR = $(BDIR)/apps
@@ -20,12 +21,12 @@ OBJ = $(SRC:%.cpp=$(ODIR)/%.o)
 #### BUILD OBJECTS ####
 $(ODIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c -o $@ $< $(CENDFLAGS)
+	$(CC) $(CFLAGS) -c -o $@ $< $(CENDFLAGS) $(LIBFLAGS)
 
 #### BUILD TARGET ####
 $(APPDIR)/$(TARGET): $(OBJ)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -o $@ $^ $(CENDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(CENDFLAGS) $(LIBFLAGS)
 
 .PHONY: all build debug release clean
 #### ALL ####
