@@ -9,7 +9,7 @@ void testVector3()
    Vector3 a(1,2,3);
    Vector3 b(7,6,5);
    Vector3 c;
-   double  d;
+   float  d;
 
    // ADD
    a.print();

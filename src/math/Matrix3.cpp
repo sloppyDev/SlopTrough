@@ -8,7 +8,7 @@ Matrix3::Matrix3()
    row3 = Vector3();
 }
 
-Matrix3::Matrix3(double in)
+Matrix3::Matrix3(float in)
 {
    row1 = Vector3(in);
    row2 = Vector3(in);
@@ -22,9 +22,9 @@ Matrix3::Matrix3(Vector3 in)
    row3 = in;
 }
 
-Matrix3::Matrix3(double in1, double in2, double in3,
-           double in4, double in5, double in6,
-           double in7, double in8, double in9)
+Matrix3::Matrix3(float in1, float in2, float in3,
+           float in4, float in5, float in6,
+           float in7, float in8, float in9)
 {
    row1 = Vector3(in1, in2, in3);
    row2 = Vector3(in4, in5, in6);
@@ -85,7 +85,7 @@ Matrix3 Matrix3::operator+(const Matrix3& other)
    return m;
 }
 
-Matrix3 Matrix3::operator+(double a)
+Matrix3 Matrix3::operator+(float a)
 {
    Matrix3 m;
    Vector3 aVec(a);
@@ -106,7 +106,7 @@ Matrix3 Matrix3::operator-(const Matrix3& other)
    return m;
 }
 
-Matrix3 Matrix3::operator-(double a)
+Matrix3 Matrix3::operator-(float a)
 {
    Matrix3 m;
    Vector3 aVec(a);
@@ -145,7 +145,7 @@ Vector3 Matrix3::operator*(const Vector3& other)
    return v;
 }
 
-Matrix3 Matrix3::operator*(double a)
+Matrix3 Matrix3::operator*(float a)
 {
    Matrix3 m;
    Vector3 aVec(a);
@@ -168,7 +168,7 @@ Matrix3 Matrix3::operator/(const Matrix3& other)
    return m;
 }
 
-Matrix3 Matrix3::operator/(double a)
+Matrix3 Matrix3::operator/(float a)
 {
    Matrix3 m;
    Vector3 aVec(a);

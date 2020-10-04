@@ -11,7 +11,7 @@ Vector3::Vector3()
 
 }
 
-Vector3::Vector3(double in)
+Vector3::Vector3(float in)
 {
    x = in;
    y = in;
@@ -19,7 +19,7 @@ Vector3::Vector3(double in)
 
 }
 
-Vector3::Vector3(double _x, double _y, double _z)
+Vector3::Vector3(float _x, float _y, float _z)
 {
    x = _x;
    y = _y;
@@ -64,7 +64,7 @@ Vector3 Vector3::operator+(const Vector3& other)
    return v;
 }
 
-Vector3 Vector3::operator+(double a)
+Vector3 Vector3::operator+(float a)
 {
    Vector3 v;
    v.x = this->x + a;
@@ -84,7 +84,7 @@ Vector3 Vector3::operator-(const Vector3& other)
    return v;
 }
 
-Vector3 Vector3::operator-(double a)
+Vector3 Vector3::operator-(float a)
 {
    Vector3 v;
    v.x = this->x - a;
@@ -94,15 +94,15 @@ Vector3 Vector3::operator-(double a)
    return v;
 }
 
-double Vector3::operator*(const Vector3& other)
+float Vector3::operator*(const Vector3& other)
 {
-   double d;
+   float d;
    d =  this->x*other.x + this->y*other.y + this->z*other.z;
    
    return d;
 }
 
-Vector3 Vector3::operator*(double a)
+Vector3 Vector3::operator*(float a)
 {
    Vector3 v;
    v.x = this->x*a;
@@ -122,7 +122,7 @@ Vector3 Vector3::operator/(const Vector3& other)
    return v;
 }
 
-Vector3 Vector3::operator/(double a)
+Vector3 Vector3::operator/(float a)
 {
    Vector3 v;
    v.x = this->x/a;
@@ -134,9 +134,9 @@ Vector3 Vector3::operator/(double a)
 
 Vector3 Vector3::operator^(const Vector3& other)
 {
-   double x;
-   double y;
-   double z;
+   float x;
+   float y;
+   float z;
 
    x = this->y*other.z - this->z*other.y;
    y = this->z*other.x - this->x*other.z;
@@ -148,16 +148,16 @@ Vector3 Vector3::operator^(const Vector3& other)
 }
 
 // UTILITY FUNCTIONS
-double Mag(Vector3 a)
+float Mag(Vector3 a)
 {
-   double out = pow(a.x*a.x + a.y*a.y + a.z*a.z,0.5);
+   float out = pow(a.x*a.x + a.y*a.y + a.z*a.z,0.5);
 
    return out;
 }
 
-double Dot(Vector3 a, Vector3 b)
+float Dot(Vector3 a, Vector3 b)
 {
-   double out;
+   float out;
    out = a.x*b.x + a.y*b.y + a.z*b.z;
 
    return out;
@@ -175,9 +175,9 @@ Vector3 ElementMult(Vector3 a, Vector3 b)
 
 Vector3 Cross(Vector3 a, Vector3 b)
 {
-   double x;
-   double y;
-   double z;
+   float x;
+   float y;
+   float z;
 
    x = a.y*b.z - a.z*b.y;
    y = a.z*b.x - a.x*b.z;
@@ -190,8 +190,8 @@ Vector3 Cross(Vector3 a, Vector3 b)
 
 Vector3 Proj(Vector3 a, Vector3 b)
 {
-   double magB  = Mag(b);
-   double aDotB = Dot(a, b);
+   float magB  = Mag(b);
+   float aDotB = Dot(a, b);
    Vector3 v = (b*aDotB)/(magB*magB);   
    
    return v;

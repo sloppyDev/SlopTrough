@@ -6,7 +6,7 @@ void testMatrix3()
    //
    // TEST VECTOR3
    //
-   double in{5};
+   float in{5};
    Matrix3 testDblIn(in);
    Matrix3 a(Vector3(1,2,3));
    Matrix3 b(Vector3(7,6,5));
