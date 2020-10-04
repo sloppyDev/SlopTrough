@@ -1,4 +1,4 @@
-  #### COMPILE FLAGS ####
+#### COMPILE FLAGS ####
 CC			 = g++
 CFLAGS	 = -pedantic-errors -Wall -Wextra -Werror
 CENDFLAGS =	$(foreach d, $(IDIR), -I$d)
@@ -6,7 +6,7 @@ CENDFLAGS =	$(foreach d, $(IDIR), -I$d)
 TARGET = SlopTrough
 
 #### DIRECTORY DEFINITIONS ####
-IDIR 	 = ./include ./include/math
+IDIR 	 = ./include ./include/tests ./include/math
 BDIR	 = ./build
 ODIR	 = $(BDIR)/obj
 APPDIR = $(BDIR)/apps

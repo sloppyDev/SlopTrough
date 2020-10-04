@@ -35,6 +35,10 @@ Vector3::Vector3(const Vector3& other)
 
 }
 
+Vector3::~Vector3()
+{
+}
+
 void Vector3::print()
 {
    std::cout << "[" << x << ", " << y << ", " << z << "]" << std::endl;
@@ -90,14 +94,12 @@ Vector3 Vector3::operator-(double a)
    return v;
 }
 
-Vector3 Vector3::operator*(const Vector3& other)
+double Vector3::operator*(const Vector3& other)
 {
-   Vector3 v;
-   v.x = this->x*other.x;
-   v.y = this->y*other.y;
-   v.z = this->z*other.z;
-
-   return v;
+   double d;
+   d =  this->x*other.x + this->y*other.y + this->z*other.z;
+   
+   return d;
 }
 
 Vector3 Vector3::operator*(double a)
