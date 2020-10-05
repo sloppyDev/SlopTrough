@@ -6,6 +6,5 @@
 #include "Matrix3.hpp"
 
 Vector3 Rotate(Vector3 point, float angle, unsigned int axis);
-// Vector3 Rotate(Vector3 point, Vector3 rotPoint, unsigned int axis);
-
+Vector3 Rotate(Vector3 point, float angle, Vector3 rotPoint, unsigned int axis);
 #endif

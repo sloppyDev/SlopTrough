@@ -8,6 +8,11 @@
 // CONSTRUCTORS
 WindowManager::WindowManager()
 {
+   windowWidth       = DEFAULT_WIDTH;
+   windowHeight      = DEFAULT_HEIGHT;
+   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowName        = (char*)"Window";
+   
    glfwSetErrorCallback(errorCallback);
    
    if (!glfwInit())
@@ -16,6 +21,7 @@ WindowManager::WindowManager()
    }
 
    window = glfwCreateWindow(DEFAULT_WIDTH, DEFAULT_HEIGHT, "Window", NULL, NULL);
+
    if (!window)
    {
       glfwTerminate();
@@ -24,10 +30,17 @@ WindowManager::WindowManager()
 
    glfwMakeContextCurrent(window);
    glfwSetKeyCallback(window, closeKeyCallback);
+
+   
 }
 
 WindowManager::WindowManager(unsigned int windowSize)
 {
+   windowWidth       = windowSize;
+   windowHeight      = windowSize;
+   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowName        = (char*)"Window";
+   
    glfwSetErrorCallback(errorCallback);
    
    if (!glfwInit())
@@ -48,6 +61,11 @@ WindowManager::WindowManager(unsigned int windowSize)
 
 WindowManager::WindowManager(unsigned int windowSize, const char* name)
 {
+   windowWidth       = windowSize;
+   windowHeight      = windowSize;
+   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowName        = (char*)name;
+   
    glfwSetErrorCallback(errorCallback);
    
    if (!glfwInit())
@@ -68,6 +86,11 @@ WindowManager::WindowManager(unsigned int windowSize, const char* name)
 
 WindowManager::WindowManager(unsigned int width, unsigned int height)
 {
+   windowWidth       = width;
+   windowHeight      = height;
+   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowName        = (char*)"Window";
+   
    glfwSetErrorCallback(errorCallback);
    
    if (!glfwInit())
@@ -88,6 +111,11 @@ WindowManager::WindowManager(unsigned int width, unsigned int height)
 
 WindowManager::WindowManager(unsigned int width, unsigned int height, const char* name)
 {
+   windowWidth       = width;
+   windowHeight      = height;
+   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowName        = (char*)name;
+      
    glfwSetErrorCallback(errorCallback);
    
    if (!glfwInit())
@@ -133,19 +161,12 @@ void WindowManager::closeKeyCallback(GLFWwindow *window, int key, int scancode, 
 // RENDERING FUNCTIONS
 void WindowManager::beginRender()
 {
-   float ratio;
    int width, height;
 
    glfwGetFramebufferSize(window, &width, &height);
-   ratio = width/(float(height));
 
    glViewport(0, 0, width, height);
    glClear(GL_COLOR_BUFFER_BIT);
-
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-   glMatrixMode(GL_MODELVIEW);
 }
 
 void WindowManager::finishRender()
