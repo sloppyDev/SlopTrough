@@ -15,7 +15,8 @@ APPDIR = $(BDIR)/apps
 
 #### SRC and OBJ ####
 SRC = $(wildcard src/*.cpp) \
-		$(wildcard src/math/*.cpp)
+		$(wildcard src/math/*.cpp) \
+		$(wildcard src/graphics/*.cpp)
 OBJ = $(SRC:%.cpp=$(ODIR)/%.o)
 
 #### BUILD OBJECTS ####
