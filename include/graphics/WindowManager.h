@@ -25,8 +25,8 @@ struct WindowManager
    // MEMBER VARIABLES
    GLFWwindow *window;
    
-   unsigned int windowWidth;
-   unsigned int windowHeight;
+   int windowWidth;
+   int windowHeight;
    float windowAspectRatio;
    float windowFOV;
    char* windowName;

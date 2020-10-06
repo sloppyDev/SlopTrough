@@ -165,11 +165,11 @@ void WindowManager::closeKeyCallback(GLFWwindow *window, int key, int scancode, 
 // RENDERING FUNCTIONS
 void WindowManager::beginRender()
 {
-   int width, height;
+   glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
 
-   glfwGetFramebufferSize(window, &width, &height);
-
-   glViewport(0, 0, width, height);
+   windowAspectRatio = windowWidth/(float)windowHeight;
+   
+   glViewport(0, 0, windowWidth, windowHeight);
    glClear(GL_COLOR_BUFFER_BIT);
 }
 

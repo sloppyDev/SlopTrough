@@ -22,7 +22,7 @@ struct Triple
    void Scale(float in);
    /* void Scale(Vector3 in);    */
    /* void Translate(Vector3 in); */
-   /* void Rotate();  */
+   void Rot();
    // DATA
    Vector3 p1;
    Vector3 p2;
@@ -42,7 +42,13 @@ struct Mesh
    /* ~Mesh(); */
    // UTILITY FUNCTIONS
    void Render();
+   void Update();
    void addTri(Triple tri);
+   /* void Scale(float in); */
+   /* void Scale(Vector3 in);    */
+   /* void Translate(Vector3 in); */
+   void Rot();
+
    /* void loadMesh(char* filePath, char* name);    */
 
    // DATA
@@ -66,6 +72,11 @@ struct MeshManager
    /* void Clip(); */
    /* void DepthClip(); */
    void Render();
+   
+   /* void Scale(float in); */
+   /* void Scale(Vector3 in);    */
+   /* void Translate(Vector3 in); */
+   void Rot();
    void addMesh(Mesh in);
 
    // DATA
