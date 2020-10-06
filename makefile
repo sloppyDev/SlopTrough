@@ -1,4 +1,4 @@
- #### COMPILE FLAGS ####
+#### COMPILE FLAGS ####
 CC			 = g++
 CFLAGS	 = -pedantic-errors -Wall -Wextra -Werror
 CENDFLAGS =	$(foreach d, $(IDIR), -I$d)
