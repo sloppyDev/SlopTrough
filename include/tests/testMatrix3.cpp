@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Matrix3.hpp"
+#include "Matrix3.h"
 
 void testMatrix3()
 {

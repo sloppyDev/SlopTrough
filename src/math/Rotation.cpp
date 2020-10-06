@@ -1,4 +1,4 @@
-#include "Rotation.hpp"
+#include "Rotation.h"
 
 Vector3 Rotate(Vector3 point, float angle, unsigned int axis)
 {

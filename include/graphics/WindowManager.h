@@ -2,6 +2,7 @@
 #define WINDOW_MANAGER_HPP
 
 #include <GLFW/glfw3.h>
+#include "GraphicsConstants.h"
 
 struct WindowManager
 {
@@ -27,6 +28,7 @@ struct WindowManager
    unsigned int windowWidth;
    unsigned int windowHeight;
    float windowAspectRatio;
+   float windowFOV;
    char* windowName;
    
 };

@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "WindowManager.hpp"
+#include "WindowManager.h"
 
-#define DEFAULT_HEIGHT 400
-#define DEFAULT_WIDTH  600
+
 
 // CONSTRUCTORS
 WindowManager::WindowManager()
@@ -12,6 +11,7 @@ WindowManager::WindowManager()
    windowHeight      = DEFAULT_HEIGHT;
    windowAspectRatio = windowWidth/(float)windowHeight;
    windowName        = (char*)"Window";
+   windowFOV         = DEFAULT_FOV;
    
    glfwSetErrorCallback(errorCallback);
    
@@ -40,6 +40,7 @@ WindowManager::WindowManager(unsigned int windowSize)
    windowHeight      = windowSize;
    windowAspectRatio = windowWidth/(float)windowHeight;
    windowName        = (char*)"Window";
+   windowFOV         = DEFAULT_FOV;   
    
    glfwSetErrorCallback(errorCallback);
    
@@ -65,6 +66,7 @@ WindowManager::WindowManager(unsigned int windowSize, const char* name)
    windowHeight      = windowSize;
    windowAspectRatio = windowWidth/(float)windowHeight;
    windowName        = (char*)name;
+   windowFOV         = DEFAULT_FOV;   
    
    glfwSetErrorCallback(errorCallback);
    
@@ -90,6 +92,7 @@ WindowManager::WindowManager(unsigned int width, unsigned int height)
    windowHeight      = height;
    windowAspectRatio = windowWidth/(float)windowHeight;
    windowName        = (char*)"Window";
+   windowFOV         = DEFAULT_FOV;   
    
    glfwSetErrorCallback(errorCallback);
    
@@ -115,6 +118,7 @@ WindowManager::WindowManager(unsigned int width, unsigned int height, const char
    windowHeight      = height;
    windowAspectRatio = windowWidth/(float)windowHeight;
    windowName        = (char*)name;
+   windowFOV         = DEFAULT_FOV;   
       
    glfwSetErrorCallback(errorCallback);
    

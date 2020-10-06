@@ -1,4 +1,4 @@
-#include "Matrix3.hpp"
+#include "Matrix3.h"
 
 // CONSTRUCTORS
 Matrix3::Matrix3()
