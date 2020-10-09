@@ -9,7 +9,7 @@ WindowManager::WindowManager()
 {
    windowWidth       = DEFAULT_WIDTH;
    windowHeight      = DEFAULT_HEIGHT;
-   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowAspectRatio = windowHeight/(float)windowWidth;
    windowName        = (char*)"Window";
    windowFOV         = DEFAULT_FOV;
    
@@ -38,7 +38,7 @@ WindowManager::WindowManager(unsigned int windowSize)
 {
    windowWidth       = windowSize;
    windowHeight      = windowSize;
-   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowAspectRatio = windowHeight/(float)windowWidth;
    windowName        = (char*)"Window";
    windowFOV         = DEFAULT_FOV;   
    
@@ -64,7 +64,7 @@ WindowManager::WindowManager(unsigned int windowSize, const char* name)
 {
    windowWidth       = windowSize;
    windowHeight      = windowSize;
-   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowAspectRatio = windowHeight/(float)windowWidth;
    windowName        = (char*)name;
    windowFOV         = DEFAULT_FOV;   
    
@@ -90,7 +90,7 @@ WindowManager::WindowManager(unsigned int width, unsigned int height)
 {
    windowWidth       = width;
    windowHeight      = height;
-   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowAspectRatio = windowHeight/(float)windowWidth;
    windowName        = (char*)"Window";
    windowFOV         = DEFAULT_FOV;   
    
@@ -116,7 +116,7 @@ WindowManager::WindowManager(unsigned int width, unsigned int height, const char
 {
    windowWidth       = width;
    windowHeight      = height;
-   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowAspectRatio = windowHeight/(float)windowWidth;
    windowName        = (char*)name;
    windowFOV         = DEFAULT_FOV;   
       
@@ -167,7 +167,7 @@ void WindowManager::beginRender()
 {
    glfwGetFramebufferSize(window, &windowWidth, &windowHeight);
 
-   windowAspectRatio = windowWidth/(float)windowHeight;
+   windowAspectRatio = windowHeight/(float)windowWidth;
    
    glViewport(0, 0, windowWidth, windowHeight);
    glClear(GL_COLOR_BUFFER_BIT);

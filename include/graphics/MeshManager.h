@@ -1,7 +1,11 @@
 #ifndef MESH_MANAGER_HPP
 #define MESH_MANAGER_HPP
 
+#include <string>
 #include <vector>
+#include <algorithm>
+#include <iostream>
+
 #include "WindowManager.h"
 #include "Vector3.h"
 #include "Rotation.h"
@@ -20,9 +24,10 @@ struct Triple
    void Update(Triple in);
 
    void Scale(float in);
-   /* void Scale(Vector3 in);    */
-   /* void Translate(Vector3 in); */
-   void Rot();
+   void Translate(Vector3 in);
+   void Rot(float angle, unsigned int axis);
+   void Rot(float angle, Vector3 rotPoint, unsigned int axis);
+   
    // DATA
    Vector3 p1;
    Vector3 p2;
@@ -36,7 +41,8 @@ struct Mesh
 {
    // CONSTRUCTORS
    Mesh();
-   Mesh(std::vector<Triple> trisIn, char* nameIn);
+   Mesh(std::string nameIn);
+   Mesh(std::vector<Triple> trisIn, std::string nameIn);
    /* Mesh(char* filePath, char* name); */
 
    /* ~Mesh(); */
@@ -44,10 +50,11 @@ struct Mesh
    void Render();
    void Update();
    void addTri(Triple tri);
-   /* void Scale(float in); */
-   /* void Scale(Vector3 in);    */
-   /* void Translate(Vector3 in); */
-   void Rot();
+
+   void Scale(float in);
+   void Translate(Vector3 in);
+   void Rot(float angle, unsigned int axis);
+   void Rot(float angle, Vector3 rotPoint, unsigned int axis);   
 
    /* void loadMesh(char* filePath, char* name);    */
 
@@ -55,12 +62,12 @@ struct Mesh
    unsigned int triCount;
    Triple tris[1000];
    Vector3 center;
-   char* name;
+   std::string name;
 };
 
 struct MeshManager
 {
-   // CONSTRUCTORS
+   // Constructors
    /* MeshManager(); */
    /* MeshManager(std::vector<char*> meshPaths); */
    MeshManager(WindowManager* winMgr);
@@ -73,16 +80,18 @@ struct MeshManager
    /* void DepthClip(); */
    void Render();
    
-   /* void Scale(float in); */
-   /* void Scale(Vector3 in);    */
-   /* void Translate(Vector3 in); */
-   void Rot();
+   void Scale(std::string meshName, float in);
+   void Translate(std::string meshName, Vector3 in);
+   void Rot(std::string meshName, float angle, unsigned int axis);
+   void Rot(std::string meshName, float angle, Vector3 rotPoint, unsigned int axis);   
    void addMesh(Mesh in);
+   void addBox(Vector3 center, float width, float height, float depth, std::string name);
 
    // DATA
    WindowManager *winManager{nullptr};
    unsigned int meshCount;
    Mesh meshes[10];
+   std::vector<std::string> meshNames;
    Mesh projMeshes[10];
    /* Mesh clipMeshes[10]; */
    /* Mesh depthClipMeshes[256]; */

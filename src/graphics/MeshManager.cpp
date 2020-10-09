@@ -2,7 +2,6 @@
 #include "GraphicsConstants.h"
 #include "MeshManager.h"
 
-#include <iostream>
 //
 // TRIPLE
 //
@@ -33,22 +32,16 @@ Triple::~Triple()
 void Triple::Render()
 {
    glBegin(GL_LINES);
-   // glColor3i(1.0, 1.0, 1.0);
 
-   glVertex3f(p1.x, p1.y, p1.z);
-   glVertex3f(p2.x, p2.y, p2.z);
+   glVertex2f(p1.x, p1.y);
+   glVertex2f(p2.x, p2.y);
 
-   glVertex3f(p2.x, p2.y, p2.z);
-   glVertex3f(p3.x, p3.y, p3.z);
+   glVertex2f(p2.x, p2.y);
+   glVertex2f(p3.x, p3.y);
 
-   glVertex3f(p3.x, p3.y, p3.z);
-   glVertex3f(p1.x, p1.y, p1.z);
+   glVertex2f(p3.x, p3.y);
+   glVertex2f(p1.x, p1.y);
 
-   glEnd();
-   glPointSize(3.0);   
-   glBegin(GL_POINTS);
-
-   glVertex3f(center.x, center.y, center.z);
    glEnd();
 }
 
@@ -108,18 +101,29 @@ void Triple::Scale(float in)
    Update();
 }
 
-void Triple::Rot()
+void Triple::Translate(Vector3 in)
 {
-   p1 = Rotate(p1, 0.01, Vector3(0.0, 0.0, -1.2),3);
-   p2 = Rotate(p2, 0.01, Vector3(0.0, 0.0, -1.2),3);
-   p3 = Rotate(p3, 0.01, Vector3(0.0, 0.0, -1.2),3);
-   p1 = Rotate(p1, 0.01, Vector3(0.0, 0.0, -1.2),2);
-   p2 = Rotate(p2, 0.01, Vector3(0.0, 0.0, -1.2),2);
-   p3 = Rotate(p3, 0.01, Vector3(0.0, 0.0, -1.2),2);
-   p1 = Rotate(p1, 0.01, Vector3(0.0, 0.0, -1.2),1);
-   p2 = Rotate(p2, 0.01, Vector3(0.0, 0.0, -1.2),1);
-   p3 = Rotate(p3, 0.01, Vector3(0.0, 0.0, -1.2),1);     
+   p1 = p1 + in;
+   p2 = p2 + in;
+   p3 = p3 + in;
 
+   Update();
+}
+
+void Triple::Rot(float angle, unsigned int axis)
+{
+   p1 = Rotate(p1, angle, axis);
+   p2 = Rotate(p2, angle, axis);
+   p3 = Rotate(p3, angle, axis);
+
+   Update();
+}
+
+void Triple::Rot(float angle, Vector3 rotPoint, unsigned int axis)
+{
+   p1 = Rotate(p1, angle, rotPoint, axis);
+   p2 = Rotate(p2, angle, rotPoint, axis);
+   p3 = Rotate(p3, angle, rotPoint, axis);
 
    Update();
 }
@@ -130,18 +134,26 @@ void Triple::Rot()
 // CONSTRUCTORS
 Mesh::Mesh()
 {
-   center = Vector3();
+   name     = "Mesh";
+   center   = Vector3();
    triCount = 0;
 }
 
-Mesh::Mesh(std::vector<Triple> trisIn, char* nameIn)
+Mesh::Mesh(std::string nameIn)
+{
+   name     = nameIn;
+   center   = Vector3();
+   triCount = 0;
+}
+
+Mesh::Mesh(std::vector<Triple> trisIn, std::string nameIn)
 {
    name = nameIn;
 
    for (Triple tri : trisIn)
    {
       tris[triCount] = tri;
-      triCount++;      
+      triCount++;
    }
 
    Update();
@@ -174,15 +186,45 @@ void Mesh::Update()
 
    }
 
-   center = Vector3(cx/triCount, cy/triCount, cz/triCount);   
+   center = Vector3(cx/triCount, cy/triCount, cz/triCount);
 }
 
-void Mesh::Rot()
+void Mesh::Scale(float in)
 {
    for (unsigned int i{0}; i < triCount; i++)
    {
-      tris[i].Rot();
+      tris[i].Scale(in);
    }
+
+   Update();
+}
+void Mesh::Translate(Vector3 in)
+{
+   for (unsigned int i{0}; i < triCount; i++)
+   {
+      tris[i].Translate(in);
+   }
+
+   Update();
+}
+void Mesh::Rot(float angle, unsigned int axis)
+{
+   for (unsigned int i{0}; i < triCount; i++)
+   {
+      tris[i].Rot(angle, center, axis);
+   }
+
+   Update();
+}
+
+void Mesh::Rot(float angle, Vector3 rotPoint, unsigned int axis)
+{
+   for (unsigned int i{0}; i < triCount; i++)
+   {
+      tris[i].Rot(angle, rotPoint, axis);
+   }
+
+   Update();
 }
 
 void Mesh::addTri(Triple tri)
@@ -222,51 +264,90 @@ void MeshManager::Render()
    Project();
    for (unsigned int i{0}; i < meshCount; i++)
    {
+      // meshes[i].Render();
       projMeshes[i].Render();
 
 
       glBegin(GL_POINTS);
+      // glVertex3f(meshes[i].center.x,
+      //            meshes[i].center.y,
+      //            meshes[i].center.z);
       glVertex3f(projMeshes[i].center.x,
                  projMeshes[i].center.y,
                  projMeshes[i].center.z);
+
       glEnd();
-         
+
    }
 }
 
 void MeshManager::Project()
 {
+   float x;
+   float y;
+   float z;
+   float aspect = winManager->windowAspectRatio;
+   float fFov{1/tan(winManager->windowFOV/2)};
+   float q = FAR_Z/(FAR_Z - NEAR_Z);
+   Vector3 v1;
+   Vector3 v2;
+   Vector3 v3;
+   
    for (unsigned int i{0}; i < meshCount; i++)
    {
       projMeshes[i].triCount = 0;
       for (unsigned int j{0}; j < meshes[i].triCount; j++)
       {
-         Vector3 v1;
-         Vector3 v2;
-         Vector3 v3;         
-         float fFov{1/tan(winManager->windowFOV/2)};
-
          // p1
-         v1.x = -meshes[i].tris[j].p1.x*(fFov/meshes[i].tris[j].p1.z);
-         v1.y = -winManager->windowAspectRatio*meshes[i].tris[j].p1.y*
-            (fFov/meshes[i].tris[j].p1.z);
-         v1.z = meshes[i].tris[j].p1.z*(-FAR_Z/(FAR_Z-NEAR_Z)) -
-            (FAR_Z*NEAR_Z)/(FAR_Z-NEAR_Z);
+         x = meshes[i].tris[j].p1.x;
+         y = meshes[i].tris[j].p1.y;
+         z = meshes[i].tris[j].p1.z;
+         if (j == 0) std::cout << z << std::endl;
+         if (j == 0) meshes[i].tris[j].p1.print();
 
+
+         v1.x = aspect*x*fFov;
+         v1.y = y*fFov;
+         v1.z = (z*q - NEAR_Z*q);
+
+         if (j == 0) v1.print();
+         if (z != 0)
+         {
+            v1.x /= z;
+            v1.y /= z;              
+         }
+         if (j == 0) v1.print();
+         if (j == 0) std::cout << std::endl;
          // p2
-         v2.x = -meshes[i].tris[j].p2.x*(fFov/meshes[i].tris[j].p2.z);
-         v2.y = -winManager->windowAspectRatio*meshes[i].tris[j].p2.y*
-            (fFov/meshes[i].tris[j].p2.z);
-         v2.z = meshes[i].tris[j].p2.z*(-FAR_Z/(FAR_Z-NEAR_Z)) -
-            (FAR_Z*NEAR_Z)/(FAR_Z-NEAR_Z);
+         
+         x = meshes[i].tris[j].p2.x;
+         y = meshes[i].tris[j].p2.y;
+         z = meshes[i].tris[j].p2.z;
 
+         v2.x = aspect*x*fFov;
+         v2.y = y*fFov;
+         v2.z = (z*q - NEAR_Z*q);
+
+         if (z != 0)
+         {
+            v2.x /= z;
+            v2.y /= z;              
+         }
          // p3
-         v3.x = -meshes[i].tris[j].p3.x*(fFov/meshes[i].tris[j].p3.z);
-         v3.y = -winManager->windowAspectRatio*meshes[i].tris[j].p3.y*
-            (fFov/meshes[i].tris[j].p3.z);
-         v3.z = meshes[i].tris[j].p3.z*(-FAR_Z/(FAR_Z-NEAR_Z)) -
-            (FAR_Z*NEAR_Z)/(FAR_Z-NEAR_Z);
+         x = meshes[i].tris[j].p3.x;
+         y = meshes[i].tris[j].p3.y;
+         z = meshes[i].tris[j].p3.z;
 
+         v3.x = aspect*x*fFov;
+         v3.y = y*fFov;
+         v3.z = (z*q - NEAR_Z*q);
+
+         if (z != 0)
+         {
+            v3.x /= z;
+            v3.y /= z;              
+         }
+         
          Triple projTri(v1, v2, v3);
 
          projMeshes[i].addTri(projTri);
@@ -277,12 +358,145 @@ void MeshManager::Project()
 // void Clip();
 // void DepthClip();
 
-void MeshManager::Rot()
+void MeshManager::Scale(std::string meshName, float in)
 {
-   meshes[0].Rot();
+   unsigned int nameIdx;
+   std::vector<std::string>::iterator itr = std::find(meshNames.begin(),
+                                                      meshNames.end(),
+                                                      meshName);
+   if (itr != meshNames.cend())
+   {
+      nameIdx = std::distance(meshNames.begin(), itr);
+      meshes[nameIdx].Scale(in);
+   }
+   else
+   {
+      std::cout << "Warning in MeshManager::Scale(): Mesh name" << meshName << " not found.\n";
+   }
+   
 }
+
+void MeshManager::Translate(std::string meshName, Vector3 in)
+{
+   unsigned int nameIdx;
+   std::vector<std::string>::iterator itr = std::find(meshNames.begin(),
+                                                      meshNames.end(),
+                                                      meshName);
+   if (itr != meshNames.cend())
+   {
+      nameIdx = std::distance(meshNames.begin(), itr);
+      meshes[nameIdx].Translate(in);
+   }
+   else
+   {
+      std::cout << "Warning in MeshManager::Translate(): Mesh name" << meshName << " not found.\n";
+   }
+}
+
+void MeshManager::Rot(std::string meshName, float angle, unsigned int axis)
+{
+   unsigned int nameIdx;
+   std::vector<std::string>::iterator itr = std::find(meshNames.begin(),
+                                                      meshNames.end(),
+                                                      meshName);
+   if (itr != meshNames.cend())
+   {
+      nameIdx = std::distance(meshNames.begin(), itr);
+      meshes[nameIdx].Rot(angle, axis);
+   }
+   else
+   {
+      std::cout << "Warning in MeshManager::Rot(): Mesh name" << meshName << " not found.\n";
+   }
+}
+
+void MeshManager::Rot(std::string meshName, float angle, Vector3 rotPoint, unsigned int axis)
+{
+   unsigned int nameIdx;
+   std::vector<std::string>::iterator itr = std::find(meshNames.begin(),
+                                                      meshNames.end(),
+                                                      meshName);
+   if (itr != meshNames.cend())
+   {
+      nameIdx = std::distance(meshNames.begin(), itr);
+      meshes[nameIdx].Rot(angle, rotPoint, axis);
+   }
+   else
+   {
+      std::cout << "Warning in MeshManager::Rot(): Mesh name" << meshName << " not found.\n";
+   }
+}
+
 void MeshManager::addMesh(Mesh in)
 {
    meshes[meshCount] = in;
+   meshNames.push_back(in.name);
    meshCount++;
+}
+
+void MeshManager::addBox(Vector3 center, float width, float height, float depth, std::string name)
+{
+   Mesh mesh(name);
+   Vector3 fbl = Vector3(center.x - (width/2),
+                         center.y - (height/2),
+                         center.z - (depth/2));
+   Vector3 ftl = Vector3(center.x - (width/2),
+                         center.y + (height/2),
+                         center.z - (depth/2));
+   Vector3 ftr = Vector3(center.x + (width/2),
+                         center.y + (height/2),
+                         center.z - (depth/2));
+   Vector3 fbr = Vector3(center.x + (width/2),
+                         center.y - (height/2),
+                         center.z - (depth/2));
+   Vector3 rbr = Vector3(center.x + (width/2),
+                         center.y - (height/2),
+                         center.z + (depth/2));
+   Vector3 rtr = Vector3(center.x + (width/2),
+                         center.y + (height/2),
+                         center.z + (depth/2));
+   Vector3 rtl = Vector3(center.x - (width/2),
+                         center.y + (height/2),
+                         center.z + (depth/2));
+   Vector3 rbl = Vector3(center.x - (width/2),
+                         center.y - (height/2),
+                         center.z + (depth/2));
+
+   Triple front1(fbl, ftl, fbr);
+   mesh.addTri(front1);
+
+   Triple front2(ftl, ftr, fbr);
+   mesh.addTri(front2);
+
+   Triple right1(fbr, ftr, rbr);
+   mesh.addTri(right1);
+
+   Triple right2(ftr, rtr, rbr);
+   mesh.addTri(right2);
+
+   Triple back1(rbr, rtr, rbl);
+   mesh.addTri(back1);
+
+   Triple back2(rtr, rtl, rbl);
+   mesh.addTri(back2);
+
+   Triple left1(rbl, rtl, fbl);
+   mesh.addTri(left1);
+
+   Triple left2(rtl, ftl, fbl);
+   mesh.addTri(left2);
+
+   Triple top1(ftl, rtl, ftr);
+   mesh.addTri(top1);
+
+   Triple top2(rtl, rtr, ftr);
+   mesh.addTri(top2);
+
+   Triple bottom1(rbl, fbl, rbr);
+   mesh.addTri(bottom1);
+
+   Triple bottom2(fbl, fbr, rbr);
+   mesh.addTri(bottom2);
+
+   addMesh(mesh);
 }
